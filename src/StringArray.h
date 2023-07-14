@@ -25,18 +25,18 @@
 #include "WString.h"
 
 template <typename T>
-class LinkedListNode {
+class LinkedListESPAsyncNode {
     T _value;
   public:
-    LinkedListNode<T>* next;
-    LinkedListNode(const T val): _value(val), next(nullptr) {}
-    ~LinkedListNode(){}
+    LinkedListESPAsyncNode<T>* next;
+    LinkedListESPAsyncNode(const T val): _value(val), next(nullptr) {}
+    ~LinkedListESPAsyncNode(){}
     const T& value() const { return _value; };
     T& value(){ return _value; }
 };
 
-template <typename T, template<typename> class Item = LinkedListNode>
-class LinkedList {
+template <typename T, template<typename> class Item = LinkedListESPAsyncNode>
+class LinkedListESPAsync {
   public:
     typedef Item<T> ItemType;
     typedef std::function<void(const T&)> OnRemove;
@@ -61,8 +61,8 @@ class LinkedList {
     ConstIterator begin() const { return ConstIterator(_root); }
     ConstIterator end() const { return ConstIterator(nullptr); }
 
-    LinkedList(OnRemove onRemove) : _root(nullptr), _onRemove(onRemove) {}
-    ~LinkedList(){}
+    LinkedListESPAsync(OnRemove onRemove) : _root(nullptr), _onRemove(onRemove) {}
+    ~LinkedListESPAsync(){}
     void add(const T& t){
       auto it = new ItemType(t);
       if(!_root){
@@ -172,10 +172,10 @@ class LinkedList {
 };
 
 
-class StringArray : public LinkedList<String> {
+class StringArray : public LinkedListESPAsync<String> {
 public:
   
-  StringArray() : LinkedList(nullptr) {}
+  StringArray() : LinkedListESPAsync(nullptr) {}
   
   bool containsIgnoreCase(const String& str){
     for (const auto& s : *this) {
